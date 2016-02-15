@@ -1,0 +1,37 @@
+@* このテンプレートの引数 *@
+@(users: Seq[models.Tables.UsersRow])
+
+@* main.scala.htmlを呼び出す *@
+@main("ユーザー一覧") {
+
+<div>
+    <a class="btn btn-success" href="@routes.UserController.edit()" role="button">新規作成</a>
+</div>
+
+<div class="col-xs-6">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>名前</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @* ユーザの一覧をループで表示 *@
+            @users.map { user =>
+                <tr>
+                    <td>@user.id</td>
+                    <td><a href="@routes.UserController.edit(Some(user.id))">@user.name</a></td>
+                    <td>
+                        @helper.form(routes.UserController.remove(user.id)) {
+                            <input class="btn btn-danger btn-xs" type="submit" value="削除"/>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+}
